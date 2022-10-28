@@ -1,0 +1,56 @@
+# 服务配置
+Server:
+  # 设置 gin 的运行模式 (debug 调试、release 上线、test 测试)
+  RunMode: debug
+  # 默认的 HTTP 监听端口
+  HttpPort: 8000
+  # 允许读取的最大持续时间。
+  ReadTimeout: 60
+  # 允许写入的最大持续时间
+  WriteTimeout: 60
+
+# 应用配置
+App:
+  # 设置默认每页数量
+  DefaultPageSize: 10
+  # 所允许的最大每页数量
+  MaxPageSize: 100
+  # 默认的应用日志存储路径
+  LogSavePath: storage/logs
+  # 日志文件名
+  LogFileName: app
+  # 日志文件后缀
+  LogFileExt: .log
+
+  # 上传文件的最终保存目录
+  UploadSavePath: storage/uploads
+  # 上传文件后的用于展示的文件服务地址
+  UploadServerUrl: http://127.0.0.1:8000/static
+  # 上传文件所允许的最大空间大小（MB）
+  UploadImageMaxSize: 5  # MB
+  # 上传文件所允许的文件后缀
+  UploadImageAllowExts:
+    - .jpg
+    - .jpeg
+    - .png
+
+# 数据库配置
+Database:
+  # 数据库驱动
+  # DBType: sqlite3
+  DBType: mysql
+  # 填写你的数据库账号
+  Username: root
+  # 填写你的数据库密码
+  Password: 123456
+  # 数据库连接地址
+  Host: 127.0.0.1:3306
+  # 数据库库名
+  # DBName: ../blog.db
+  DBName: blog_service
+  TablePrefix: blog_
+  # 字符集
+  Charset: utf8
+  ParseTime: True
+  MaxIdleConns: 10
+  MaxOpenConns: 30
