@@ -3,6 +3,7 @@ package routers
 import (
 	_ "blog-service/docs"
 	"blog-service/global"
+	"blog-service/internal/middleware"
 	"blog-service/internal/routers/api"
 	v1 "blog-service/internal/routers/api/v1"
 	"github.com/gin-gonic/gin"
@@ -32,10 +33,18 @@ func NewRouter() *gin.Engine {
 	// 如下可访问：只可访问返回的资源
 	r.Static("/static", global.AppSetting.UploadSavePath)
 
+	// 获取 Token的API
+	r.POST("/auth", api.GetAuth)
+
 	// 业务接口 API
 	article := v1.NewArticle()
 	tag := v1.NewTag()
+
 	apiv1 := r.Group("/api/v1")
+	// 在完成了 JWT 的中间件编写后，我们需要将其接入到应用流程中，但是需要注意的是，并非所有的接口都需要用到 JWT 中间件，
+	// 因此我们需要利用 gin 中的分组路由的概念，只针对 apiv1 的路由分组进行 JWT 中间件的引用，
+	// 也就是只有 apiv1 路由分组里的路由方法会受此中间件的约束
+	apiv1.Use(middleware.JWT())
 	{
 		// 创建标签
 		apiv1.POST("/tags", tag.Create)

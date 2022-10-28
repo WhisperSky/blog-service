@@ -54,3 +54,11 @@ Database:
   ParseTime: True
   MaxIdleConns: 10
   MaxOpenConns: 30
+# JWT配置
+JWT:
+  # JWT 令牌的 Secret（密钥）（不可暴露，否则可以解密）
+  Secret: blog-service
+  # 签发者（Issuer）是 blog-service
+  Issuer: blog-service
+  # 有效时间（Expire）为 7200 秒
+  Expire: 7200

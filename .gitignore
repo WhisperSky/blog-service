@@ -13,3 +13,6 @@ blog.db
 .DS_Store
 vendor/
 storage/*
+
+#忽略前端目录
+.vue-element/node_modules/
