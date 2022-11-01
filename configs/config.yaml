@@ -33,6 +33,7 @@ App:
     - .jpg
     - .jpeg
     - .png
+  DefaultContextTimeout: 20 # 应用请求超时处理
 
 # 数据库配置
 Database:
@@ -54,6 +55,7 @@ Database:
   ParseTime: True
   MaxIdleConns: 10
   MaxOpenConns: 30
+
 # JWT配置
 JWT:
   # JWT 令牌的 Secret（密钥）（不可暴露，否则可以解密）
@@ -62,3 +64,13 @@ JWT:
   Issuer: blog-service
   # 有效时间（Expire）为 7200 秒
   Expire: 7200
+
+Email:
+  Host: smtp.qq.com
+  Port: 465
+  UserName: xxxx@qq.com
+  Password: xxxxxxxx
+  IsSSL: true
+  From: xxxx@qq.com
+  To:
+      - xxxx@qq.com

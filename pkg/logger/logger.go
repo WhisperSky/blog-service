@@ -183,6 +183,14 @@ func (l *Logger) Fatalf(format string, v ...interface{}) {
 	l.Output(LevelFatal, fmt.Sprintf(format, v...))
 }
 
+func (l *Logger) Panic(v ...interface{}) {
+	l.Output(LevelFatal, fmt.Sprint(v...))
+}
+
+func (l *Logger) Panicf(format string, v ...interface{}) {
+	l.Output(LevelFatal, fmt.Sprintf(format, v...))
+}
+
 //func (l *Logger) Debug(ctx context.Context, v ...interface{}) {
 //	l.WithContext(ctx).WithTrace().Output(LevelDebug, fmt.Sprint(v...))
 //}

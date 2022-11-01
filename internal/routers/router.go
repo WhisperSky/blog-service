@@ -6,15 +6,37 @@ import (
 	"blog-service/internal/middleware"
 	"blog-service/internal/routers/api"
 	v1 "blog-service/internal/routers/api/v1"
+	"blog-service/pkg/limiter"
 	"github.com/gin-gonic/gin"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
+	"time"
 )
+
+var methodLimiters = limiter.NewMethodLimiter().AddBuckets(limiter.LimiterBucketRule{
+	Key:          "/auth",
+	FillInterval: time.Second,
+	Capacity:     10,
+	Quantum:      10,
+})
 
 func NewRouter() *gin.Engine {
 	r := gin.New()
-	r.Use(gin.Logger())
-	r.Use(gin.Recovery())
+	if global.ServerSetting.RunMode == "debug" {
+		// 使用gin默认日志
+		r.Use(gin.Logger())
+		// 使用gin默认异常捕获处理
+		r.Use(gin.Recovery())
+	} else {
+		// 访问日志记录
+		r.Use(middleware.AccessLog())
+		// 异常捕获处理（发送邮件）
+		r.Use(middleware.Recovery())
+	}
+	// 限流器
+	r.Use(middleware.RateLimiter(methodLimiters))
+	// 统一超时控制
+	r.Use(middleware.ContextTimeout(global.AppSetting.DefaultContextTimeout))
 	// 注册中间件——国际化翻译处理
 	// 已将注册事件添加到main.go init文件中
 	//r.Use(middleware.Translations())

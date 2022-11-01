@@ -14,5 +14,6 @@ blog.db
 vendor/
 storage/*
 
-#忽略前端目录
+#忽略前端目录或文件
 .vue-element/node_modules/
+.vue-element/package-lock.json
